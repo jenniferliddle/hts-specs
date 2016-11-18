@@ -1,10 +1,5 @@
 language: c
 
-branches:
-  only:
-    - master
-    - gh-pages
-
 addons:
   apt:
     packages:
@@ -12,12 +7,13 @@ addons:
 
 script: 
   - make 
-  - mkdir docs-tmp
-  - cp *.pdf docs-tmp
-  - git checkout gh-pages
-  - cp docs-tmp/* .
-  - git config user.name $USER
+  - cd ..
+  - git clone --depth=50 --branch=gh-pages https://github.com/jenniferliddle/hts-specs.git gh-pages
+  - cp hts-specs/*.pdf gh-pages
+  - cd gh-pages
+  - git config user.name 'travis'
+  - git config user.email 'travis'
   - git add *.pdf
   - git commit -m "Generated from master"
-  - git push
+  - git push -f -q https://jenniferliddle:$GITHUB_API_KEY@github.com/jenniferliddle/hts-specs
 
