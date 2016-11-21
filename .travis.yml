@@ -1,0 +1,23 @@
+language: c
+
+branches:
+  only:
+    - master
+    - gh-pages
+
+addons:
+  apt:
+    packages:
+    - texlive-full
+
+script: 
+  - make 
+  - mkdir docs-tmp
+  - cp *.pdf docs-tmp
+  - git checkout gh-pages
+  - cp docs-tmp/* .
+  - git config user.name $USER
+  - git add *.pdf
+  - git commit -m "Generated from master"
+  - git push
+
